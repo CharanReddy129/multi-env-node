@@ -48,7 +48,7 @@ Volumes:
     reclaimPolicy: Retain
 
 ingress:
-  enabled: true
+  enabled: false
   name: multi-env-ingress
   className: nginx
   annotations: 

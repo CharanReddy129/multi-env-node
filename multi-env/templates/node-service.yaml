@@ -11,6 +11,9 @@ spec:
     - port: {{ .Values.node.service.port | default 80 }}
       targetPort: 3000
       protocol: TCP
+      {{ if eq .Values.node.service.type "NodePort" }}
+      nodePort: {{ .Values.node.service.nodePort | default 30000 }}
+      {{ end }}
       name: http
   selector:
     app: {{ .Values.node.name }}
