@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.node.name }}-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.node.name }}
+spec:
+  replicas: {{ .Values.node.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.node.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.node.name }}
+    spec:
+      containers:
+        - name: {{ .Values.node.name }}
+          image: "{{ .Values.node.image.repository }}:{{ .Values.node.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: "mongodb://{{ .Values.mongo.name }}-svc:{{ .Values.mongo.service.port }}/mydata"
+          resources:
+            {{- toYaml .Values.node.resources | nindent 12 }}
