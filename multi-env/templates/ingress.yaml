@@ -20,7 +20,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: {{ $.Values.node.name }}
+              name: {{ $.Values.node.name }}-svc
               port:
                 number: {{ $.Values.node.service.port }}
         {{- end }}
