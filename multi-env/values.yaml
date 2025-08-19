@@ -42,7 +42,7 @@ mongo:
 Volumes:
   pv:
     name: mongo-pv
-    size: 2Gi
+    size: 1Gi
     accessModes: 
       - ReadWriteOnce
     reclaimPolicy: Retain
