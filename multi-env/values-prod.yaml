@@ -13,3 +13,4 @@ Volumes:
   pvc:
     name: mongo-pvc-prod
     size: 500Mi
+    storageClassName: multi
