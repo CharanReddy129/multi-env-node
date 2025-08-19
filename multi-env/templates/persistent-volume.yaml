@@ -1,3 +1,4 @@
+{{- if .Values.Volumes.pv.enabled }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -11,3 +12,4 @@ spec:
   hostPath:
     path: /data/{{ .Values.Volumes.pv.name }}
     type: DirectoryOrCreate
+{{- end }}

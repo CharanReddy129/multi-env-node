@@ -11,5 +11,6 @@ mongo:
 
 Volumes:
   pv:
+    enabled: true
     name: mongo-pv-prod
     size: 500Mi
