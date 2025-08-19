@@ -33,4 +33,4 @@ spec:
 {{- toYaml .Values.Volumes.pv.accessModes | nindent 10 }}
         resources:
           requests:
-            storage: {{ .Values.Volumes.pv.size }}
+            storage: 500Mi
