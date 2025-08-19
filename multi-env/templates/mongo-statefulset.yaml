@@ -22,16 +22,16 @@ spec:
         resources:
           {{- toYaml .Values.mongo.resources | nindent 10 }}
         volumeMounts:
-        - name: mongo-pvc
+        - name: {{ .Values.Volumes.pvc.name }}
           mountPath: /data/db
 
   volumeClaimTemplates:
     - metadata:
-        name: mongo-pvc
+        name: {{ .Values.Volumes.pvc.name }}
       spec:
         accessModes:
-{{- toYaml .Values.Volumes.pv.accessModes | nindent 10 }}
+{{- toYaml .Values.Volumes.pvc.accessModes | nindent 10 }}
         resources:
           requests:
-            storage: 500Mi
-        storageClassName: multi
+            storage: {{ .Values.Volumes.pvc.size }}
+        storageClassName: {{ .Values.Volumes.pvc.storageClassName | default "multi" }}
