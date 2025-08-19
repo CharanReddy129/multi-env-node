@@ -11,5 +11,6 @@ mongo:
 
 Volumes:
   pv:
+    enabled: true
     name: mongo-pv-dev
     size: 500Mi

@@ -12,5 +12,6 @@ mongo:
 
 Volumes:
   pv:
+    enabled: true
     name: mongo-pv-stage
     size: 500Mi

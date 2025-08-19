@@ -41,6 +41,7 @@ mongo:
 
 Volumes:
   pv:
+    enabled: false
     name: mongo-pv
     size: 1Gi
     accessModes: 
