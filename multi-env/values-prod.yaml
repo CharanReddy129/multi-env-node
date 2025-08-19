@@ -1,10 +1,13 @@
 namespace: dev
 
 node:
+  name: node-prod-deploy
   service:
     type: NodePort
     port: 3000
     nodePort: 30003
+mongo:
+  name: mongo-prod
 
 Volumes:
   pv:

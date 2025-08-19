@@ -1,10 +1,14 @@
 namespace: stage
 
 node:
+  name: node-stage-deploy
   service:
     type: NodePort
     port: 3000
     nodePort: 30002
+
+mongo:
+  name: mongo-stage
 
 Volumes:
   pv:
