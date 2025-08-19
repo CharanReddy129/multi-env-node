@@ -1,7 +1,12 @@
-namespace: dev
+namespace: prod
 
 node:
   service:
     type: NodePort
     port: 3000
     nodePort: 30001
+
+Volumes:
+  pv:
+    name: mongo-pv-dev
+    size: 500Mi

@@ -5,3 +5,8 @@ node:
     type: NodePort
     port: 3000
     nodePort: 30002
+
+Volumes:
+  pv:
+    name: mongo-pv-stage
+    size: 500Mi
