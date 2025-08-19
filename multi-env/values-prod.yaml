@@ -5,3 +5,8 @@ node:
     type: NodePort
     port: 3000
     nodePort: 30003
+
+Volumes:
+  pv:
+    name: mongo-pv-prod
+    size: 500Mi
