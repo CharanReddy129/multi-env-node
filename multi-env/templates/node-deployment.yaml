@@ -23,6 +23,6 @@ spec:
             - containerPort: 3000
           env:
             - name: MONGO_URI
-              value: "mongodb://{{ .Values.mongo.name }}-svc:{{ .Values.mongo.service.port }}/mydata"
+              value: "mongodb://{{ .Values.mongo.name }}-svc:{{ .Values.mongo.service.port }}/{{ .Values.mongo.database }}"
           resources:
             {{- toYaml .Values.node.resources | nindent 12 }}

@@ -26,6 +26,7 @@ mongo:
     repository: mongo
     tag: "6.0"
   replicaCount: 1
+  database: mydata
 
   service:
     type: ClusterIP
@@ -40,13 +41,13 @@ mongo:
       memory: "256Mi"
 
 Volumes:
-  pv:
-    enabled: false
-    name: mongo-pv
-    size: 1Gi
+  pvc:
+    name: mongo-pvc
+    size: 500Mi
     accessModes: 
       - ReadWriteOnce
-    reclaimPolicy: Retain
+    reclaimPolicy: Delete
+    storageClassName: multi
 
 ingress:
   enabled: false
