@@ -1,4 +1,4 @@
-namespace: dev
+namespace: prod
 
 node:
   name: node-prod-deploy
@@ -10,7 +10,6 @@ mongo:
   name: mongo-prod
 
 Volumes:
-  pv:
-    enabled: true
-    name: mongo-pv-prod
+  pvc:
+    name: mongo-pvc-prod
     size: 500Mi
