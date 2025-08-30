@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/CharanReddy129/multi-env-node.git'
-    targetRevision: main
+    targetRevision: stage
     path: ./multi-env
     helm:
       valueFiles:
