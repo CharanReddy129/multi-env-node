@@ -91,7 +91,7 @@ jobs:
       
       - name: deploying to k8s cluster
         run: |
-          APP_Name="multi-${{ github.event.inputs.branch }}"
+          $APP_NAME="multi-${{ github.event.inputs.branch }}"
 
           if ! argocd app get $APP_NAME &>/dev/null; then
             echo "Application not found. Creating..."
