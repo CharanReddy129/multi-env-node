@@ -4,7 +4,7 @@ node:
   name: node-prod-deploy
   image: 
     repository: charanreddy12/multi-env-app
-    tag: prod
+    tag: latest-main
   service:
     type: NodePort
     port: 3000
