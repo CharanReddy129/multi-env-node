@@ -28,7 +28,7 @@ env:
 
 jobs:
   image-build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: checkout-code
         uses: actions/checkout@v5
@@ -51,7 +51,7 @@ jobs:
   
   image-tag:
     needs: image-build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: checkout-code
         uses: actions/checkout@v5
@@ -61,22 +61,20 @@ jobs:
       
       - name: edit image tags
         run: |
-          git config --global user.name "charan"
-          git config --global user.email "charan@actions.com"
-          git switch ${{ github.event.inputs.branch }}
-          if [ "${{ github.event.inputs.branch }}" == "dev" ]; then
-            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-dev.yaml
-          elif [ "${{ github.event.inputs.branch }}" == "stage" ]; then
-            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-stage.yaml
-          else
-            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-prod.yaml
-          fi
-
-          git add .
-          
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-          git commit -m "Updated image tag to ${{ github.event.inputs.image_tag }} in ${{ github.event.inputs.branch }} branch"
-          git push origin ${{ github.event.inputs.branch }}
-          fi
+          chmod +x ./scripts/edit-tag.sh
+          ./scripts/edit-tag.sh
+    
+  deploy:
+    needs: image-tag
+    runs-on: self-hosted
+    steps:
+      - name: checkout-code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.inputs.branch }}
+      
+      - name: deploying to k8s cluster
+        run: |
+          chmod +x ./scripts/deployment.sh
+          ./scripts/deployment.sh
