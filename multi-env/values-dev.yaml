@@ -3,7 +3,7 @@ namespace: dev
 node:
   name: node-dev-deploy
   image: 
-    repository: charanreddy12/multi-env-node
+    repository: charanreddy12/multi-env-app
     tag: dev
   service:
     type: NodePort

@@ -3,7 +3,7 @@ namespace: prod
 node:
   name: node-prod-deploy
   image: 
-    repository: charanreddy12/multi-env-node
+    repository: charanreddy12/multi-env-app
     tag: prod
   service:
     type: NodePort

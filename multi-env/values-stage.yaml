@@ -3,7 +3,7 @@ namespace: stage
 node:
   name: node-stage-deploy
   image: 
-    repository: charanreddy12/multi-env-node
+    repository: charanreddy12/multi-env-app
     tag: stage
   service:
     type: NodePort

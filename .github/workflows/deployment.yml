@@ -96,6 +96,7 @@ jobs:
 
           if ! argocd app get $APP_NAME &>/dev/null; then
             echo "Application not found. Creating..."
+            git switch $BRANCH
             argocd app create -f argocd/argocd-${{ github.event.inputs.branch }}.yml
           fi
 
