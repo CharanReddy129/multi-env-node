@@ -99,4 +99,4 @@ jobs:
           fi
 
           # Sync the application
-          argocd app sync $APP_NAME --prune --retry
+          argocd app sync $APP_NAME
