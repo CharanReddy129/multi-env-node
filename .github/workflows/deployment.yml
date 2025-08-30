@@ -66,6 +66,12 @@ jobs:
           else
             sed -i "s/tag: .*/tag: \"${{ github.event.inputs.image_tag }}-main\"/g" multi-env/values-prod.yaml
           fi
+
           git add .
+          
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
           git commit -m "Updated image tag to ${{ github.event.inputs.image_tag }} in ${{ github.event.inputs.branch }} branch"
           git push origin ${{ github.event.inputs.branch }}
+          fi
