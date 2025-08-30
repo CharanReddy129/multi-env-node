@@ -21,3 +21,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+    ignoreDifferences:
+    - group: storage.k8s.io
+      kind: StorageClass
+      name: multi 
