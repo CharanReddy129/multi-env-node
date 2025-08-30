@@ -14,4 +14,10 @@ Volumes:
   pvc:
     name: mongo-pvc-stage
     size: 500Mi
-    storageClassName: multi
+    storageClassName: multi-stage
+
+storageClass:
+  name: multi-stage
+  provisioner: rancher.io/local-path
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete

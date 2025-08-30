@@ -13,4 +13,10 @@ Volumes:
   pvc:
     name: mongo-pvc-prod
     size: 500Mi
-    storageClassName: multi
+    storageClassName: multi-prod
+  
+storageClass:
+  name: multi-prod
+  provisioner: rancher.io/local-path
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
