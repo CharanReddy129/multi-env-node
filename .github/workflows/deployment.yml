@@ -59,8 +59,25 @@ jobs:
       
       - name: edit image tags
         run: |
-          chmod +x ./scripts/edit-tag.sh
-          ./scripts/edit-tag.sh
+          git config --global user.name "charan"
+          git config --global user.email "charan@actions.com"
+          git switch ${{ github.event.inputs.branch }}
+          if [ "${{ github.event.inputs.branch }}" == "dev" ]; then
+          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-dev.yaml
+          elif [ "${{ github.event.inputs.branch }}" == "stage" ]; then
+          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-stage.yaml
+          else
+          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-prod.yaml
+          fi
+
+          git add .
+
+          if git diff --cached --quiet; then
+          echo "No changes to commit"
+          else
+          git commit -m "Updated image tag to ${{ github.event.inputs.image_tag }} in ${{ github.event.inputs.branch }} branch"
+          git push origin ${{ github.event.inputs.branch }}
+          fi
     
   deploy:
     needs: image-tag
@@ -74,5 +91,12 @@ jobs:
       
       - name: deploying to k8s cluster
         run: |
-          chmod +x ./scripts/deployment.sh
-          ./scripts/deployment.sh
+          APP_Name="multi-${{ github.event.inputs.branch }}"
+
+          if ! argocd app get $APP_NAME &>/dev/null; then
+            echo "Application not found. Creating..."
+            argocd app create -f argocd/argocd-${{ github.event.inputs.branch }}.yml
+          fi
+
+          # Sync the application
+          argocd app sync $APP_NAME --prune --retry
