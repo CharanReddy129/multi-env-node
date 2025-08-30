@@ -2,6 +2,9 @@ namespace: prod
 
 node:
   name: node-prod-deploy
+  image: 
+    repository: charanreddy12/multi-env-app
+    tag: prod
   service:
     type: NodePort
     port: 3000

@@ -4,7 +4,7 @@ namespace: default
 node:
   name: node
   image: 
-    repository: charanreddy12/multi-env-node
+    repository: charanreddy12/multi-env-app
     tag: "latest"
   replicaCount: 1
   
