@@ -20,6 +20,11 @@ on:
         description: 'Docker image tag'
         required: true
         default: 'latest'
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_NAME: multi-env-app
+  IMAGE_TAG: ${{ github.event.inputs.image_tag }}-${{ github.event.inputs.branch }}
 
 jobs:
   image-build:
@@ -34,15 +39,15 @@ jobs:
       - name: docker-login
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
       
       - name: build-and-push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/multi-env-app:${{ github.event.inputs.image_tag }}-${{  github.event.inputs.branch }}
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
   
   image-tag:
     needs: image-build
@@ -57,14 +62,14 @@ jobs:
       - name: edit image tags
         run: |
           git config --global user.name "charan"
-          git config --global user.email "charan@gmail.com"
+          git config --global user.email "charan@actions.com"
           git switch ${{ github.event.inputs.branch }}
           if [ "${{ github.event.inputs.branch }}" == "dev" ]; then
-            sed -i "s/tag: .*/tag: \"${{ github.event.inputs.image_tag }}-dev\"/g" multi-env/values-dev.yaml
+            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-dev.yaml
           elif [ "${{ github.event.inputs.branch }}" == "stage" ]; then
-            sed -i "s/tag: .*/tag: \"${{ github.event.inputs.image_tag }}-stage\"/g" multi-env/values-stage.yaml
+            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-stage.yaml
           else
-            sed -i "s/tag: .*/tag: \"${{ github.event.inputs.image_tag }}-main\"/g" multi-env/values-prod.yaml
+            sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-prod.yaml
           fi
 
           git add .

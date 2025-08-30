@@ -4,7 +4,7 @@ node:
   name: node-dev-deploy
   image: 
     repository: charanreddy12/multi-env-node
-    tag: "dev"
+    tag: dev
   service:
     type: NodePort
     port: 3000

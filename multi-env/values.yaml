@@ -4,8 +4,8 @@ namespace: default
 node:
   name: node
   image: 
-    repository: charanreddy12/multi-env-node
-    tag: "latest"
+    repository: charanreddy12/multi-env-app
+    tag: latest
   replicaCount: 1
   
   service:
