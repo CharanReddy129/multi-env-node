@@ -49,6 +49,12 @@ Volumes:
     reclaimPolicy: Delete
     storageClassName: multi
 
+storageClass:
+  name: multi
+  provisioner: rancher.io/local-path
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
+
 ingress:
   enabled: false
   name: multi-env-ingress
