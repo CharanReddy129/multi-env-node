@@ -4,7 +4,7 @@ node:
   name: node-stage-deploy
   image: 
     repository: charanreddy12/multi-env-app
-    tag: stage
+    tag: "v0.1-stage"
   service:
     type: NodePort
     port: 3000
