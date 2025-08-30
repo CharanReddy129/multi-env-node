@@ -25,6 +25,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   IMAGE_NAME: multi-env-app
   IMAGE_TAG: ${{ github.event.inputs.image_tag }}-${{ github.event.inputs.branch }}
+  BRANCH: ${{ github.event.inputs.branch }}
 
 jobs:
   image-build:
@@ -61,13 +62,13 @@ jobs:
         run: |
           git config --global user.name "charan"
           git config --global user.email "charan@actions.com"
-          git switch ${{ github.event.inputs.branch }}
-          if [ "${{ github.event.inputs.branch }}" == "dev" ]; then
-          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-dev.yaml
-          elif [ "${{ github.event.inputs.branch }}" == "stage" ]; then
-          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-stage.yaml
+          git switch $BRANCH
+          if [ "$BRANCH" == "dev" ]; then
+          sed -i "s/tag: .*/tag: $IMAGE_TAG/g" multi-env/values-dev.yaml
+          elif [ "$BRANCH" == "stage" ]; then
+          sed -i "s/tag: .*/tag: $IMAGE_TAG /g" multi-env/values-stage.yaml
           else
-          sed -i "s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/g" multi-env/values-prod.yaml
+          sed -i "s/tag: .*/tag: $IMAGE_TAG/g" multi-env/values-prod.yaml
           fi
 
           git add .
@@ -75,8 +76,8 @@ jobs:
           if git diff --cached --quiet; then
           echo "No changes to commit"
           else
-          git commit -m "Updated image tag to ${{ github.event.inputs.image_tag }} in ${{ github.event.inputs.branch }} branch"
-          git push origin ${{ github.event.inputs.branch }}
+          git commit -m "Updated image tag to $IMAGE_TAG in $BRANCH branch"
+          git push origin $BRANCH
           fi
     
   deploy:
